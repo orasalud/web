@@ -53,6 +53,8 @@ export const site = {
 
   /**
    * Real photos only: no stock photos, AI-generated people or illustrations.
+   * Exception: the hero may show hands only, with no identifiable faces.
+   * The nurse portrait must always be a real photo of the actual nurse.
    * Put the files in public/images/ with these names. Until a file exists, a
    * labeled gray box is shown in its place. Set a slot to null to remove it.
    */
@@ -60,7 +62,7 @@ export const site = {
     /** Hero, 4:3. Nurse with an older adult at home. */
     hero: {
       src: "/images/hero.jpg",
-      alt: "Enfermera de Orasalud atendiendo a una persona mayor en su casa",
+      alt: "Manos de una enfermera sosteniendo las manos de una persona mayor en su casa",
       placeholder: "Foto: enfermera con adulto mayor en casa",
     },
     /** "Quién va a la casa", 1:1. Nurse portrait. */

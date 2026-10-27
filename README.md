@@ -46,6 +46,8 @@ The section headings, steps and sample report text are in `src/app/page.tsx`.
 ## Photos
 
 Real photos only: no stock photos, AI-generated people or illustrations of people.
+Exception: the hero may show hands only, with no identifiable faces. The nurse portrait
+must always be a real photo of the actual nurse.
 Drop the files into `public/images/` with these exact names, then rebuild (or restart
 `npm run dev`). Until a file exists, a labeled gray box shows its slot.
 
