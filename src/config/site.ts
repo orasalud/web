@@ -1,0 +1,125 @@
+// Single source of truth for all business data shown on the site.
+// Values wrapped in [brackets] are placeholders: they render highlighted in
+// yellow on the page until they are replaced with real values.
+
+export type Service = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  /** Price in Chilean pesos (CLP), no decimals. */
+  price: number;
+};
+
+export type Faq = {
+  question: string;
+  answer: string;
+};
+
+export const site = {
+  name: "Orasalud",
+  url: "https://orasalud.com",
+  domain: "orasalud.com",
+
+  /** WhatsApp number in international format, digits only (no +, spaces or dashes). */
+  whatsappNumber: "56900000000",
+
+  phone: {
+    /** Used for tel: links and structured data. International format with +. */
+    e164: "+56900000000",
+    /** How the number is shown on the page. */
+    display: "[+56 9 XXXX XXXX]",
+  },
+
+  /** Contact email shown on /privacidad. */
+  contactEmail: "[correo de contacto]",
+
+  nurse: {
+    name: "[Nombre de la enfermera]",
+    registry: "[NÚMERO]",
+    experience: "[Años de experiencia y especialidad — por completar]",
+    /**
+     * Path to the nurse photo inside /public (e.g. "/enfermera.jpg").
+     * While null, a gray placeholder box is shown instead.
+     */
+    photo: null as string | null,
+  },
+
+  communes: ["San Bernardo", "Calera de Tango", "El Bosque"],
+
+  hours: [
+    { label: "Lunes a viernes 8:30 a 19:00", schema: "Mo-Fr 08:30-19:00" },
+    { label: "Sábado 9:00 a 14:00", schema: "Sa 09:00-14:00" },
+    { label: "Domingo cerrado", schema: null },
+  ],
+
+  services: [
+    {
+      slug: "curacion-simple",
+      title: "Curación simple",
+      subtitle: "Heridas pequeñas o de operación",
+      price: 25000,
+    },
+    {
+      slug: "curacion-avanzada",
+      title: "Curación avanzada",
+      subtitle: "Úlceras, pie diabético, heridas complejas",
+      price: 40000,
+    },
+    {
+      slug: "administracion-medicamentos",
+      title: "Administración de medicamentos",
+      subtitle: "Inyecciones, con su receta médica",
+      price: 20000,
+    },
+    {
+      slug: "signos-vitales-glicemia",
+      title: "Signos vitales + glicemia",
+      subtitle: "Presión, pulso, temperatura, saturación y glucosa",
+      price: 25000,
+    },
+    {
+      slug: "sonda-nasogastrica",
+      title: "Sonda nasogástrica",
+      subtitle: "Para alimentarse, con insumos",
+      price: 45000,
+    },
+    {
+      slug: "sonda-foley",
+      title: "Sonda Foley",
+      subtitle: "Sonda urinaria, con insumos",
+      price: 55000,
+    },
+    {
+      slug: "retiro-sonda",
+      title: "Retiro de sonda",
+      subtitle: "Foley o nasogástrica",
+      price: 25000,
+    },
+  ] satisfies Service[],
+
+  /** "Preguntas frecuentes", in display order. */
+  faqs: [
+    {
+      question: "¿Necesito orden médica?",
+      answer:
+        "Para inyecciones y sondas necesitamos la indicación de su médico. Para signos vitales y curaciones simples, consúltenos.",
+    },
+    {
+      question: "¿Puedo pedir reembolso?",
+      answer:
+        "Entregamos boleta para que pueda solicitarlo en su isapre o seguro. La cobertura depende de su plan.",
+    },
+    { question: "¿Cuánto se demoran en ir?", answer: "[Por confirmar]" },
+    { question: "¿Cómo se paga?", answer: "[Por confirmar]" },
+  ] satisfies Faq[],
+};
+
+/** Formats a CLP amount as "$25.000". */
+export function formatPrice(amount: number): string {
+  return "$" + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+/** True for values still in [bracket] placeholder form. */
+export function isPlaceholder(value: string): boolean {
+  return /^\[.*\]$/.test(value.trim());
+}
