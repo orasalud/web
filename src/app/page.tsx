@@ -68,10 +68,10 @@ export default function Home() {
               <h1 className="text-[2.15rem] leading-[1.15] font-bold sm:text-5xl">
                 Enfermera a domicilio en San Bernardo
               </h1>
-              <p className="mt-3 max-w-2xl text-muted sm:text-lg">
+              <p className="mt-2 max-w-2xl text-lg font-medium text-ink md:text-xl">
                 También atendemos en {formatList(site.communes.slice(1))}.
               </p>
-              <p className="mt-4 max-w-2xl text-lg sm:text-xl">
+              <p className="mt-5 max-w-[34ch] text-base leading-[1.55] font-normal text-muted md:text-lg">
                 Enfermeras con experiencia y registro en la Superintendencia de Salud. Después de cada
                 visita, le enviamos un reporte a la familia.
               </p>
