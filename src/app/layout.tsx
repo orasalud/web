@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Figtree } from "next/font/google";
-import { site } from "@/config/site";
+import { formatList, site } from "@/config/site";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -11,8 +11,7 @@ const figtree = Figtree({
 });
 
 const title = "Orasalud · Enfermera a domicilio en San Bernardo";
-const description =
-  "Enfermeras con experiencia y registro en la Superintendencia de Salud. Después de cada visita, le enviamos un reporte a la familia.";
+const description = `Enfermera a domicilio en ${formatList(site.communes)}. Enfermeras con registro en la Superintendencia de Salud y reporte a la familia después de cada visita.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),

@@ -7,7 +7,7 @@ import { PhotoSlot } from "@/components/photo-slot";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StickyBar } from "@/components/sticky-bar";
-import { formatPrice, site, type ServiceIcon } from "@/config/site";
+import { formatList, formatPrice, site, type ServiceIcon } from "@/config/site";
 
 const FINAL_CTA_ID = "contacto";
 
@@ -68,6 +68,9 @@ export default function Home() {
               <h1 className="text-[2.15rem] leading-[1.15] font-bold sm:text-5xl">
                 Enfermera a domicilio en San Bernardo
               </h1>
+              <p className="mt-3 max-w-2xl text-muted sm:text-lg">
+                También atendemos en {formatList(site.communes.slice(1))}.
+              </p>
               <p className="mt-4 max-w-2xl text-lg sm:text-xl">
                 Enfermeras con experiencia y registro en la Superintendencia de Salud. Después de cada
                 visita, le enviamos un reporte a la familia.

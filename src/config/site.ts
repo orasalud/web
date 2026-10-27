@@ -167,6 +167,11 @@ export function formatPrice(amount: number): string {
   return "$" + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+/** Joins names as a Spanish list: "A, B y C" (uses "e" before an "i" sound). */
+export function formatList(items: string[]): string {
+  return new Intl.ListFormat("es", { type: "conjunction" }).format(items);
+}
+
 /** True for values still in [bracket] placeholder form. */
 export function isPlaceholder(value: string): boolean {
   return /^\[.*\]$/.test(value.trim());
