@@ -31,17 +31,43 @@ links, the footer, the form's service list and the structured data (JSON-LD) rea
 | Phone for "Llamar" | `phone.e164` | With `+`: `"+56912345678"` |
 | Phone as shown | `phone.display` | Free text: `"+56 9 1234 5678"` |
 | Nurse | `nurse.name`, `nurse.registry`, `nurse.experience` | |
-| Nurse photo | `nurse.photo` | Put the file in `public/` (e.g. `public/enfermera.jpg`) and set `"/enfermera.jpg"`. It's served optimized via `next/image`. |
+| Photos | `photos` | See [Photos](#photos) below |
 | Privacy contact email | `contactEmail` | Shown on `/privacidad` |
 | Communes | `communes` | |
 | Hours | `hours` | `label` is what's shown; `schema` is the machine format for Google (`"Mo-Fr 08:30-19:00"`), `null` for closed days |
-| Services and prices | `services` | `price` is a plain number in CLP (`25000`), shown as `$25.000`. Order in the array = order on the page. Keep `slug` stable (used in analytics). |
+| Services and prices | `services` | `price` is a plain number in CLP (`25000`), shown as `$25.000`. Order in the array = order on the page. Keep `slug` stable (used in analytics). `icon` is one of `bandage`, `syringe`, `heart-pulse`, `iv-bag`. |
 | FAQ | `faqs` | `question` / `answer` pairs, in display order |
 
 Any value written as `[like this]` is treated as a placeholder and highlighted in yellow on
 the page, so you can spot what's still missing. Once you replace it, the highlight disappears.
 
 The section headings, steps and sample report text are in `src/app/page.tsx`.
+
+## Photos
+
+Real photos only: no stock photos, AI-generated people or illustrations of people.
+Drop the files into `public/images/` with these exact names, then rebuild (or restart
+`npm run dev`). Until a file exists, a labeled gray box shows its slot.
+
+| File | Where | Shape |
+| --- | --- | --- |
+| `hero.jpg` | Hero: beside the text on desktop, below the buttons on mobile. Nurse with an older adult at home. | 4:3 |
+| `nurse.jpg` | "Quién va a la casa". Nurse portrait. | 1:1 |
+| `procedure.jpg` | "Así funciona". Hands doing a wound dressing. | 3:2 |
+| `kit.jpg` | "Así funciona", next to the procedure photo. Supplies on a table. Optional. | 3:2 |
+
+- Photos are cropped to fill their shape (centered), so keep the subject near the middle.
+  Any size works; 2400px on the long side is plenty.
+- Edit file names and alt text (what screen readers and Google read) in `photos` in `site.ts`.
+  To drop the optional kit photo entirely, set `kit: null`.
+- **Compression on build:** `npm run dev` and `npm run build` first run
+  `scripts/compress-images.mjs`, which processes `public/images/` **in place**: applies the
+  camera rotation, removes metadata (including GPS location, important for photos taken in
+  patients' homes), shrinks to 2400px max and re-compresses heavy files. Files already
+  processed are left alone. Keep your untouched originals somewhere else. You can run it by
+  hand with `npm run images`.
+- `next/image` then serves each device a resized AVIF/WebP version, and every photo box
+  reserves its space before loading, so there is no layout shift.
 
 ## Environment variables
 
@@ -96,6 +122,8 @@ src/
   app/opengraph-image.tsx share image (1200×630), generated at build
   app/icon.svg            favicon; app/apple-icon.tsx = home-screen icon
   app/sitemap.ts, robots.ts
-  components/             header, footer, CTA links, form, sticky bar
+  components/             header, footer, CTA links, form, sticky bar, photo slots
   lib/                    WhatsApp URLs, UTM storage, analytics, lead validation
+public/images/            photos (see Photos)
+scripts/compress-images.mjs  photo compression, runs before dev/build
 ```

@@ -1,12 +1,13 @@
-import Image from "next/image";
+import { Bandage, HeartPulse, IvBag, Syringe, type LucideIcon } from "lucide-react";
 import { CallLink, WhatsAppLink } from "@/components/cta";
 import { Fillable } from "@/components/fillable";
 import { CheckIcon, ChevronIcon, ClockIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
 import { LeadForm } from "@/components/lead-form";
+import { PhotoSlot } from "@/components/photo-slot";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StickyBar } from "@/components/sticky-bar";
-import { formatPrice, site } from "@/config/site";
+import { formatPrice, site, type ServiceIcon } from "@/config/site";
 
 const FINAL_CTA_ID = "contacto";
 
@@ -21,6 +22,13 @@ const steps = [
   "Coordinamos la visita con su orden médica.",
   "La enfermera va a la casa y le enviamos el reporte a la familia.",
 ];
+
+const serviceIcons: Record<ServiceIcon, LucideIcon> = {
+  bandage: Bandage,
+  syringe: Syringe,
+  "heart-pulse": HeartPulse,
+  "iv-bag": IvBag,
+};
 
 const sampleReport =
   "Visita de hoy, 10:30 · Curación simple realizada en pierna derecha, herida limpia y en buena evolución. Presión 128/80, pulso 72, saturación 97%, glicemia 112 mg/dL. Próxima visita: jueves 10:30.";
@@ -53,27 +61,36 @@ export default function Home() {
       <SiteHeader />
 
       <main>
-        {/* Hero */}
+        {/* Hero: text, then photo, then chips on mobile; photo beside the text on desktop. */}
         <section className="bg-tint">
-          <div className="mx-auto max-w-5xl px-4 pt-8 pb-10 sm:px-6 sm:pt-14 sm:pb-16">
-            <h1 className="text-[2.15rem] leading-[1.15] font-bold sm:text-5xl">
-              Enfermera a domicilio en San Bernardo
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg sm:text-xl">
-              Enfermeras con experiencia y registro en la Superintendencia de Salud. Después de cada
-              visita, le enviamos un reporte a la familia.
-            </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <WhatsAppLink location="hero" size="lg" className="w-full sm:w-auto">
-                <WhatsAppIcon className="h-7 w-7" />
-                Escribir por WhatsApp
-              </WhatsAppLink>
-              <CallLink location="hero" size="lg" className="w-full sm:w-auto">
-                <PhoneIcon className="h-6 w-6" />
-                Llamar
-              </CallLink>
+          <div className="mx-auto grid max-w-5xl gap-x-10 px-4 pt-8 pb-10 [grid-template-areas:'text'_'photo'_'chips'] sm:px-6 sm:pt-14 sm:pb-16 md:grid-cols-[1fr_minmax(0,26rem)] md:items-center md:[grid-template-areas:'text_photo'_'chips_photo']">
+            <div className="[grid-area:text]">
+              <h1 className="text-[2.15rem] leading-[1.15] font-bold sm:text-5xl">
+                Enfermera a domicilio en San Bernardo
+              </h1>
+              <p className="mt-4 max-w-2xl text-lg sm:text-xl">
+                Enfermeras con experiencia y registro en la Superintendencia de Salud. Después de cada
+                visita, le enviamos un reporte a la familia.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
+                <WhatsAppLink location="hero" size="lg" className="w-full sm:w-auto md:w-full lg:w-auto">
+                  <WhatsAppIcon className="h-7 w-7" />
+                  Escribir por WhatsApp
+                </WhatsAppLink>
+                <CallLink location="hero" size="lg" className="w-full sm:w-auto md:w-full lg:w-auto">
+                  <PhoneIcon className="h-6 w-6" />
+                  Llamar
+                </CallLink>
+              </div>
             </div>
-            <ul className="mt-7 flex flex-wrap gap-2">
+            <PhotoSlot
+              photo={site.photos.hero}
+              ratio="4:3"
+              sizes="(min-width: 768px) 416px, calc(100vw - 32px)"
+              highPriority
+              className="mt-7 [grid-area:photo] md:mt-0"
+            />
+            <ul className="mt-7 flex flex-wrap gap-2 [grid-area:chips] md:self-start">
               {trustChips.map((chip) => (
                 <li
                   key={chip}
@@ -91,26 +108,36 @@ export default function Home() {
         <section aria-labelledby="servicios" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
           <SectionHeading id="servicios">¿Qué necesita?</SectionHeading>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {site.services.map((service) => (
-              <li
-                key={service.slug}
-                className="flex flex-col rounded-2xl border border-line bg-white p-5 shadow-[0_1px_2px_rgba(23,50,58,0.06)]"
-              >
-                <h3 className="text-xl leading-snug font-bold">{service.title}</h3>
-                <p className="mt-1 text-muted">{service.subtitle}</p>
-                <p className="mt-3 text-2xl font-bold text-ink">{formatPrice(service.price)}</p>
-                <WhatsAppLink
-                  location="service"
-                  service={service}
-                  variant="secondary"
-                  size="sm"
-                  className="mt-4 w-full"
+            {site.services.map((service) => {
+              const Icon = serviceIcons[service.icon];
+              return (
+                <li
+                  key={service.slug}
+                  className="flex flex-col rounded-2xl border border-line bg-white p-5 shadow-[0_1px_2px_rgba(23,50,58,0.06)]"
                 >
-                  <WhatsAppIcon className="h-5 w-5" />
-                  Consultar<span className="sr-only"> por {service.title}</span>
-                </WhatsAppLink>
-              </li>
-            ))}
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-tint">
+                      <Icon className="h-6 w-6 text-brand-strong" strokeWidth={2} aria-hidden="true" />
+                    </span>
+                    <div className="pt-1.5">
+                      <h3 className="text-xl leading-snug font-bold">{service.title}</h3>
+                      <p className="mt-1 text-muted">{service.subtitle}</p>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-2xl font-bold text-ink">{formatPrice(service.price)}</p>
+                  <WhatsAppLink
+                    location="service"
+                    service={service}
+                    variant="secondary"
+                    size="sm"
+                    className="mt-4 w-full"
+                  >
+                    <WhatsAppIcon className="h-5 w-5" />
+                    Consultar<span className="sr-only"> por {service.title}</span>
+                  </WhatsAppLink>
+                </li>
+              );
+            })}
           </ul>
           <p className="mt-5 text-sm text-muted">
             Precios en pesos chilenos, referenciales. Atendemos con indicación médica cuando el
@@ -135,6 +162,14 @@ export default function Home() {
                 </li>
               ))}
             </ol>
+            <div className={`mt-4 grid gap-4 ${site.photos.kit ? "grid-cols-2" : "max-w-xl"}`}>
+              <PhotoSlot
+                photo={site.photos.procedure}
+                ratio="3:2"
+                sizes={site.photos.kit ? "(min-width: 1024px) 480px, 50vw" : "(min-width: 640px) 576px, 100vw"}
+              />
+              <PhotoSlot photo={site.photos.kit} ratio="3:2" sizes="(min-width: 1024px) 480px, 50vw" />
+            </div>
           </div>
         </section>
 
@@ -142,20 +177,12 @@ export default function Home() {
         <section aria-labelledby="quien-va" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
           <SectionHeading id="quien-va">Quién va a la casa</SectionHeading>
           <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center">
-            {site.nurse.photo ? (
-              <Image
-                src={site.nurse.photo}
-                alt={site.nurse.name}
-                width={176}
-                height={176}
-                sizes="176px"
-                className="h-44 w-44 shrink-0 rounded-2xl object-cover"
-              />
-            ) : (
-              <div className="flex h-44 w-44 shrink-0 items-center justify-center rounded-2xl border-2 border-dashed border-[#7F8D92] bg-[#E4E7E8] p-4 text-center text-sm font-semibold text-muted">
-                Foto real de la enfermera
-              </div>
-            )}
+            <PhotoSlot
+              photo={site.photos.nurse}
+              ratio="1:1"
+              sizes="(min-width: 640px) 224px, 192px"
+              className="w-48 shrink-0 sm:w-56"
+            />
             <div>
               <p className="text-2xl font-bold text-ink">
                 <Fillable value={site.nurse.name} />
