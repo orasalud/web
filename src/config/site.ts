@@ -2,12 +2,24 @@
 // Values wrapped in [brackets] are placeholders: they render highlighted in
 // yellow on the page until they are replaced with real values.
 
+export type ServiceIcon = "bandage" | "syringe" | "heart-pulse" | "iv-bag";
+
 export type Service = {
   slug: string;
   title: string;
   subtitle: string;
   /** Price in Chilean pesos (CLP), no decimals. */
   price: number;
+  icon: ServiceIcon;
+};
+
+export type Photo = {
+  /** Path inside /public. Drop the file there and it shows up on the next build. */
+  src: string;
+  /** Describes the photo for screen readers and Google. */
+  alt: string;
+  /** Text on the gray box shown while the file doesn't exist yet. */
+  placeholder: string;
 };
 
 export type Faq = {
@@ -37,12 +49,39 @@ export const site = {
     name: "[Nombre de la enfermera]",
     registry: "[NÚMERO]",
     experience: "[Años de experiencia y especialidad — por completar]",
-    /**
-     * Path to the nurse photo inside /public (e.g. "/enfermera.jpg").
-     * While null, a gray placeholder box is shown instead.
-     */
-    photo: null as string | null,
   },
+
+  /**
+   * Real photos only: no stock photos, AI-generated people or illustrations.
+   * Put the files in public/images/ with these names. Until a file exists, a
+   * labeled gray box is shown in its place. Set a slot to null to remove it.
+   */
+  photos: {
+    /** Hero, 4:3. Nurse with an older adult at home. */
+    hero: {
+      src: "/images/hero.jpg",
+      alt: "Enfermera de Orasalud atendiendo a una persona mayor en su casa",
+      placeholder: "Foto: enfermera con adulto mayor en casa",
+    },
+    /** "Quién va a la casa", 1:1. Nurse portrait. */
+    nurse: {
+      src: "/images/nurse.jpg",
+      alt: "Retrato de la enfermera",
+      placeholder: "Foto real de la enfermera",
+    },
+    /** "Así funciona", 3:2. Hands doing a wound dressing. */
+    procedure: {
+      src: "/images/procedure.jpg",
+      alt: "Manos de la enfermera haciendo una curación",
+      placeholder: "Foto: manos haciendo una curación",
+    },
+    /** "Así funciona", 3:2. Supplies on a table. Optional. */
+    kit: {
+      src: "/images/kit.jpg",
+      alt: "Insumos de enfermería sobre una mesa",
+      placeholder: "Foto: insumos sobre una mesa (opcional)",
+    } as Photo | null,
+  } satisfies Record<string, Photo | null>,
 
   communes: ["San Bernardo", "Calera de Tango", "El Bosque"],
 
@@ -58,42 +97,49 @@ export const site = {
       title: "Curación simple",
       subtitle: "Heridas pequeñas o de operación",
       price: 25000,
+      icon: "bandage",
     },
     {
       slug: "curacion-avanzada",
       title: "Curación avanzada",
       subtitle: "Úlceras, pie diabético, heridas complejas",
       price: 40000,
+      icon: "bandage",
     },
     {
       slug: "administracion-medicamentos",
       title: "Administración de medicamentos",
       subtitle: "Inyecciones, con su receta médica",
       price: 20000,
+      icon: "syringe",
     },
     {
       slug: "signos-vitales-glicemia",
       title: "Signos vitales + glicemia",
       subtitle: "Presión, pulso, temperatura, saturación y glucosa",
       price: 25000,
+      icon: "heart-pulse",
     },
     {
       slug: "sonda-nasogastrica",
       title: "Sonda nasogástrica",
       subtitle: "Para alimentarse, con insumos",
       price: 45000,
+      icon: "iv-bag",
     },
     {
       slug: "sonda-foley",
       title: "Sonda Foley",
       subtitle: "Sonda urinaria, con insumos",
       price: 55000,
+      icon: "iv-bag",
     },
     {
       slug: "retiro-sonda",
       title: "Retiro de sonda",
       subtitle: "Foley o nasogástrica",
       price: 25000,
+      icon: "iv-bag",
     },
   ] satisfies Service[],
 
