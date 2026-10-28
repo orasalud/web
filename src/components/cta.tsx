@@ -70,16 +70,27 @@ export function CallLink({
   );
 }
 
-/** Unstyled tracked links, for the footer. */
-export function PlainWhatsAppLink({ className, children }: { className?: string; children: ReactNode }) {
+/** Unstyled tracked links, for the footer and the service price list. */
+export function PlainWhatsAppLink({
+  location = "footer",
+  service,
+  className,
+  children,
+}: {
+  location?: CtaLocation;
+  service?: Service;
+  className?: string;
+  children: ReactNode;
+}) {
   const utm = useUtm();
+  const message = service ? serviceMessage(service.title) : GENERIC_MESSAGE;
   return (
     <a
-      href={whatsappUrl(GENERIC_MESSAGE, utm)}
+      href={whatsappUrl(message, utm)}
       target="_blank"
       rel="noopener"
       className={className}
-      onClick={() => track("whatsapp_click", { location: "footer" })}
+      onClick={() => track("whatsapp_click", { location, service: service?.slug })}
     >
       {children}
     </a>
