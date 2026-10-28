@@ -1,4 +1,4 @@
-import { Bandage, HeartPulse, IvBag, ShieldCheck, Syringe, type LucideIcon } from "lucide-react";
+import { Bandage, HeartPulse, IvBag, Syringe, type LucideIcon } from "lucide-react";
 import { CallLink, PlainWhatsAppLink, WhatsAppLink } from "@/components/cta";
 import { Fillable } from "@/components/fillable";
 import { CheckIcon, ChevronIcon, ClockIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
@@ -214,24 +214,6 @@ export default function Home() {
             </ol>
           </div>
         </section>
-
-        {/* Trust strip */}
-        <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12">
-          <div className="flex items-start gap-4 rounded-2xl bg-tint p-5 sm:gap-5 sm:p-6">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white">
-              <ShieldCheck className="h-7 w-7 text-brand-strong" strokeWidth={2} aria-hidden="true" />
-            </span>
-            <div className="pt-0.5">
-              <p className="text-lg font-semibold text-ink">
-                Todas nuestras enfermeras tienen registro en la Superintendencia de Salud.
-              </p>
-              <p className="mt-1 text-muted">
-                Antes de la visita le enviamos el nombre y el número de registro de la enfermera que va,
-                para que pueda verificarlo.
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* Coverage & hours */}
         <section aria-labelledby="cobertura" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">

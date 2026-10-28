@@ -142,6 +142,11 @@ export const site = {
   /** "Preguntas frecuentes", in display order. */
   faqs: [
     {
+      question: "¿Cómo sé quién va a ir?",
+      answer:
+        "Todas nuestras enfermeras tienen registro en la Superintendencia de Salud. Antes de la visita le enviamos el nombre y el número de registro de la enfermera que va, para que pueda verificarlo.",
+    },
+    {
       question: "¿Necesito orden médica?",
       answer:
         "Para inyecciones y sondas necesitamos la indicación de su médico. Para signos vitales y curaciones simples, consúltenos.",

@@ -41,7 +41,7 @@ links, the footer, the form's service list and the structured data (JSON-LD) rea
 Any value written as `[like this]` is treated as a placeholder and highlighted in yellow on
 the page, so you can spot what's still missing. Once you replace it, the highlight disappears.
 
-The section headings, the "Así funciona" steps and the trust strip text are in `src/app/page.tsx`.
+The section headings and the "Así funciona" steps are in `src/app/page.tsx`.
 
 ## Photos
 
