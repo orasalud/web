@@ -6,6 +6,7 @@ import { LeadForm } from "@/components/lead-form";
 import { PhotoSlot } from "@/components/photo-slot";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StepIllustration, type StepIllustrationKind } from "@/components/step-illustration";
 import { StickyBar } from "@/components/sticky-bar";
 import { formatList, formatPrice, site, type ServiceIcon } from "@/config/site";
 import { MULTI_SERVICE_MESSAGE } from "@/lib/whatsapp";
@@ -18,10 +19,10 @@ const trustChips = [
   "Respuesta el mismo día",
 ];
 
-const steps = [
-  "Nos escribe por WhatsApp o nos llama.",
-  "Coordinamos la visita con su orden médica.",
-  "La enfermera va a la casa y le enviamos el reporte a la familia.",
+const steps: { text: string; illustration: StepIllustrationKind }[] = [
+  { text: "Nos escribe por WhatsApp o nos llama.", illustration: "chat" },
+  { text: "Coordinamos la visita con su orden médica.", illustration: "schedule" },
+  { text: "La enfermera va a la casa y le enviamos el reporte a la familia.", illustration: "route" },
 ];
 
 const serviceIcons: Record<ServiceIcon, LucideIcon> = {
@@ -195,25 +196,20 @@ export default function Home() {
             <SectionHeading id="asi-funciona">Así funciona</SectionHeading>
             <ol className="mt-6 grid gap-4 md:grid-cols-3">
               {steps.map((step, index) => (
-                <li key={step} className="flex items-start gap-4 rounded-2xl bg-white p-5">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-strong text-lg font-bold text-white"
-                  >
-                    {index + 1}
-                  </span>
-                  <p className="pt-1.5 text-ink">{step}</p>
+                <li key={step.text} className="rounded-2xl bg-white p-4 sm:p-5">
+                  <StepIllustration kind={step.illustration} />
+                  <div className="mt-4 flex items-start gap-4">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-strong text-lg font-bold text-white"
+                    >
+                      {index + 1}
+                    </span>
+                    <p className="pt-1.5 text-ink">{step.text}</p>
+                  </div>
                 </li>
               ))}
             </ol>
-            <div className={`mt-4 grid gap-4 ${site.photos.kit ? "grid-cols-2" : "max-w-xl"}`}>
-              <PhotoSlot
-                photo={site.photos.procedure}
-                ratio="3:2"
-                sizes={site.photos.kit ? "(min-width: 1024px) 480px, 50vw" : "(min-width: 640px) 576px, 100vw"}
-              />
-              <PhotoSlot photo={site.photos.kit} ratio="3:2" sizes="(min-width: 1024px) 480px, 50vw" />
-            </div>
           </div>
         </section>
 

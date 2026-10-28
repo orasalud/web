@@ -6,7 +6,6 @@ import type { Photo } from "@/config/site";
 
 const ratios = {
   "4:3": "aspect-[4/3]",
-  "3:2": "aspect-[3/2]",
   "1:1": "aspect-square",
 };
 
