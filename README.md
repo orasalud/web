@@ -56,13 +56,10 @@ Drop the files into `public/images/` with these exact names, then rebuild (or re
 | --- | --- | --- |
 | `hero.jpg` | Hero: beside the text on desktop, below the buttons on mobile. Nurse with an older adult at home. | 4:3 |
 | `nurse.jpg` | "Quién va a la casa". Nurse portrait. | 1:1 |
-| `procedure.jpg` | "Así funciona". Hands doing a wound dressing. | 3:2 |
-| `kit.jpg` | "Así funciona", next to the procedure photo. Supplies on a table. Optional. | 3:2 |
 
 - Photos are cropped to fill their shape (centered), so keep the subject near the middle.
   Any size works; 2400px on the long side is plenty.
 - Edit file names and alt text (what screen readers and Google read) in `photos` in `site.ts`.
-  To drop the optional kit photo entirely, set `kit: null`.
 - **Compression on build:** `npm run dev` and `npm run build` first run
   `scripts/compress-images.mjs`, which processes `public/images/` **in place**: applies the
   camera rotation, removes metadata (including GPS location, important for photos taken in

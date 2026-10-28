@@ -1,0 +1,173 @@
+/*
+ * "Así funciona" illustrations.
+ * Base styles are the FINAL frame (what reduced-motion users see). Animations
+ * only exist under prefers-reduced-motion: no-preference; they hold their
+ * first frame (paused + fill backwards) until the card scrolls into view and
+ * data-state flips to "play", run once, then keep the last frame.
+ */
+
+.ill-frame {
+  height: 10rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #e9f7f8;
+}
+
+.ill-frame svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Elements that pop or pulse scale around their own center. */
+.ill-chat-out,
+.ill-chat-in,
+.ill-day-sel,
+.ill-chip,
+.ill-chip-sel,
+.ill-done,
+.ill-house {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Final frame */
+.ill-typing,
+.ill-label-go {
+  opacity: 0;
+}
+
+.ill-car {
+  transform: translateX(130px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ill-frame:not([data-state="play"]) * {
+    animation-play-state: paused !important;
+  }
+
+  /* 1. Chat: family message → typing dots → reply (≈3 s) */
+  .ill-chat-out {
+    animation: ill-pop-kf 0.4s ease-out 0.2s both;
+  }
+  .ill-typing {
+    animation: ill-typing-kf 1.5s linear 1s both;
+  }
+  .ill-dot {
+    animation: ill-dot-kf 0.5s ease-in-out 1.15s 2;
+  }
+  .ill-dot:nth-of-type(2) {
+    animation-delay: 1.3s;
+  }
+  .ill-dot:nth-of-type(3) {
+    animation-delay: 1.45s;
+  }
+  .ill-chat-in {
+    animation: ill-pop-kf 0.4s ease-out 2.6s both;
+  }
+
+  /* 2. Calendar: day → time chips → 10:30 → confirmation (≈3.3 s) */
+  .ill-day-sel {
+    animation: ill-pop-kf 0.35s ease-out 0.4s both;
+  }
+  .ill-chip {
+    animation: ill-pop-kf 0.35s ease-out 1.1s both;
+  }
+  .ill-chip:nth-of-type(2) {
+    animation-delay: 1.25s;
+  }
+  .ill-chip:nth-of-type(3) {
+    animation-delay: 1.4s;
+  }
+  .ill-chip-sel {
+    animation: ill-pop-kf 0.35s ease-out 2.2s both;
+  }
+  .ill-done {
+    animation: ill-pop-kf 0.4s ease-out 2.9s both;
+  }
+
+  /* 3. Route: car drives to the house, label changes on arrival (≈3.5 s) */
+  .ill-car {
+    animation: ill-drive-kf 2.6s ease-in-out 0.3s both;
+  }
+  .ill-label-go {
+    animation: ill-fade-out-kf 0.2s linear 2.9s both;
+  }
+  .ill-label-arrived {
+    animation: ill-fade-in-kf 0.3s ease-out 3.1s both;
+  }
+  .ill-house {
+    animation: ill-pulse-kf 0.5s ease-in-out 3s;
+  }
+}
+
+@keyframes ill-pop-kf {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ill-typing-kf {
+  0% {
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ill-dot-kf {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes ill-drive-kf {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(130px);
+  }
+}
+
+@keyframes ill-fade-in-kf {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ill-fade-out-kf {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ill-pulse-kf {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}

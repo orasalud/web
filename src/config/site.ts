@@ -64,7 +64,7 @@ export const site = {
    * Exception: the hero may show hands only, with no identifiable faces.
    * The nurse portrait must always be a real photo of the actual nurse.
    * Put the files in public/images/ with these names. Until a file exists, a
-   * labeled gray box is shown in its place. Set a slot to null to remove it.
+   * labeled gray box is shown in its place.
    */
   photos: {
     /** Hero, 4:3. Nurse with an older adult at home. */
@@ -79,19 +79,7 @@ export const site = {
       alt: "Retrato de la enfermera",
       placeholder: "Foto real de la enfermera",
     },
-    /** "Así funciona", 3:2. Hands doing a wound dressing. */
-    procedure: {
-      src: "/images/procedure.jpg",
-      alt: "Manos de la enfermera haciendo una curación",
-      placeholder: "Foto: manos haciendo una curación",
-    },
-    /** "Así funciona", 3:2. Supplies on a table. Optional. */
-    kit: {
-      src: "/images/kit.jpg",
-      alt: "Insumos de enfermería sobre una mesa",
-      placeholder: "Foto: insumos sobre una mesa (opcional)",
-    } as Photo | null,
-  } satisfies Record<string, Photo | null>,
+  } satisfies Record<string, Photo>,
 
   communes: ["San Bernardo", "Calera de Tango", "El Bosque"],
 
