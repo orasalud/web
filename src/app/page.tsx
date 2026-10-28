@@ -108,24 +108,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Services: grouped price list, one column. Each row is one WhatsApp link. */}
+        {/* Services: one card per group, one column. Each row is one WhatsApp link. */}
         <section aria-labelledby="servicios" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
           <SectionHeading id="servicios">¿Qué necesita?</SectionHeading>
           <p className="mt-3 max-w-2xl text-muted">
             Atendemos con indicación médica cuando el procedimiento lo requiere.
           </p>
-          <div className="mt-8 max-w-[720px] space-y-10">
+          <div className="mt-8 max-w-[720px] space-y-4 sm:space-y-5">
             {site.serviceGroups.map((group) => {
               const Icon = serviceIcons[group.icon];
               return (
-                <div key={group.id}>
+                <div
+                  key={group.id}
+                  className="rounded-2xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(23,50,58,0.04)] sm:p-5"
+                >
                   <div className="flex items-center gap-3">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-tint">
                       <Icon className="h-6 w-6 text-brand-strong" strokeWidth={2} aria-hidden="true" />
                     </span>
                     <h3 className="text-xl font-bold">{group.title}</h3>
                   </div>
-                  <ul className="mt-3 divide-y divide-line border-y border-line">
+                  <ul className="mt-3 divide-y divide-line">
                     {site.services
                       .filter((service) => service.group === group.id)
                       .map((service) => (
@@ -142,7 +145,7 @@ export default function Home() {
                             className="relative isolate grid min-h-14 grid-cols-[1fr_auto] items-center gap-x-3 py-3 [grid-template-areas:'text_pill'_'price_pill'] before:absolute before:inset-y-0 before:-inset-x-3 before:-z-10 before:rounded-lg hover:before:bg-tint focus-visible:outline-none focus-visible:before:[outline:3px_solid_var(--color-brand-strong)] focus-visible:before:[outline-offset:-3px] motion-safe:before:transition-colors sm:grid-cols-[1fr_auto_auto] sm:gap-x-5 sm:[grid-template-areas:'text_price_pill']"
                           >
                             <span className="min-w-0 [grid-area:text]">
-                              <span className="block leading-snug font-semibold text-pretty text-ink">
+                              <span className="block leading-snug font-semibold text-balance text-ink">
                                 {service.title}
                                 <span className="sr-only">,</span>
                               </span>
