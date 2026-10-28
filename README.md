@@ -35,7 +35,8 @@ links, the footer, the form's service list and the structured data (JSON-LD) rea
 | Privacy contact email | `contactEmail` | Shown on `/privacidad` |
 | Communes | `communes` | |
 | Hours | `hours` | `label` is what's shown; `schema` is the machine format for Google (`"Mo-Fr 08:30-19:00"`), `null` for closed days |
-| Services and prices | `services` | `price` is a plain number in CLP (`25000`), shown as `$25.000`. Order in the array = order on the page. Keep `slug` stable (used in analytics). `icon` is one of `bandage`, `syringe`, `heart-pulse`, `iv-bag`. |
+| Services and prices | `services` | `price` is a plain number in CLP (`25000`), shown as `$25.000`. Order in the array = order on the page. Keep `slug` stable (used in analytics). `group` is the id of one of the `serviceGroups`. |
+| Service groups | `serviceGroups` | `id`, `title` and `icon` (one of `bandage`, `syringe`, `heart-pulse`, `iv-bag`). Order in the array = order on the page; on desktop the first half goes in the left column. |
 | FAQ | `faqs` | `question` / `answer` pairs, in display order |
 
 Any value written as `[like this]` is treated as a placeholder and highlighted in yellow on

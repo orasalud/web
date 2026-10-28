@@ -4,13 +4,21 @@
 
 export type ServiceIcon = "bandage" | "syringe" | "heart-pulse" | "iv-bag";
 
+export type ServiceGroupId = "curaciones" | "medicamentos" | "signos-vitales" | "sondas";
+
+export type ServiceGroup = {
+  id: ServiceGroupId;
+  title: string;
+  icon: ServiceIcon;
+};
+
 export type Service = {
   slug: string;
   title: string;
   subtitle: string;
   /** Price in Chilean pesos (CLP), no decimals. */
   price: number;
-  icon: ServiceIcon;
+  group: ServiceGroupId;
 };
 
 export type Photo = {
@@ -93,55 +101,67 @@ export const site = {
     { label: "Domingo cerrado", schema: null },
   ],
 
+  /**
+   * "¿Qué necesita?" groups, in display order. On desktop the first half goes
+   * in the left column and the rest in the right column.
+   */
+  serviceGroups: [
+    { id: "curaciones", title: "Curaciones", icon: "bandage" },
+    { id: "medicamentos", title: "Medicamentos", icon: "syringe" },
+    { id: "signos-vitales", title: "Signos vitales", icon: "heart-pulse" },
+    { id: "sondas", title: "Sondas", icon: "iv-bag" },
+  ] satisfies ServiceGroup[],
+
+  /** Order within each group follows this array (also the order in the form). */
   services: [
     {
       slug: "curacion-simple",
       title: "Curación simple",
       subtitle: "Heridas pequeñas o de operación",
       price: 25000,
-      icon: "bandage",
+      group: "curaciones",
     },
     {
       slug: "curacion-avanzada",
       title: "Curación avanzada",
       subtitle: "Úlceras, pie diabético, heridas complejas",
       price: 40000,
-      icon: "bandage",
+      group: "curaciones",
     },
     {
       slug: "administracion-medicamentos",
       title: "Administración de medicamentos",
       subtitle: "Inyecciones, con su receta médica",
       price: 20000,
-      icon: "syringe",
+      group: "medicamentos",
     },
     {
       slug: "signos-vitales-glicemia",
       title: "Signos vitales + glicemia",
       subtitle: "Presión, pulso, temperatura, saturación y glucosa",
       price: 25000,
-      icon: "heart-pulse",
+      group: "signos-vitales",
     },
     {
       slug: "sonda-nasogastrica",
       title: "Sonda nasogástrica",
       subtitle: "Para alimentarse, con insumos",
       price: 45000,
-      icon: "iv-bag",
+      group: "sondas",
     },
     {
       slug: "sonda-foley",
       title: "Sonda Foley",
       subtitle: "Sonda urinaria, con insumos",
       price: 55000,
-      icon: "iv-bag",
+      group: "sondas",
     },
     {
       slug: "retiro-sonda",
       title: "Retiro de sonda",
       subtitle: "Foley o nasogástrica",
       price: 25000,
-      icon: "iv-bag",
+      group: "sondas",
     },
   ] satisfies Service[],
 

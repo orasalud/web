@@ -1,5 +1,5 @@
 import { Bandage, HeartPulse, IvBag, Syringe, type LucideIcon } from "lucide-react";
-import { CallLink, WhatsAppLink } from "@/components/cta";
+import { CallLink, PlainWhatsAppLink, WhatsAppLink } from "@/components/cta";
 import { Fillable } from "@/components/fillable";
 import { CheckIcon, ChevronIcon, ClockIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
 import { LeadForm } from "@/components/lead-form";
@@ -29,6 +29,10 @@ const serviceIcons: Record<ServiceIcon, LucideIcon> = {
   "heart-pulse": HeartPulse,
   "iv-bag": IvBag,
 };
+
+// Desktop: first half of the groups in the left column, the rest on the right.
+const half = Math.ceil(site.serviceGroups.length / 2);
+const serviceColumns = [site.serviceGroups.slice(0, half), site.serviceGroups.slice(half)];
 
 const sampleReport =
   "Visita de hoy, 10:30 · Curación simple realizada en pierna derecha, herida limpia y en buena evolución. Presión 128/80, pulso 72, saturación 97%, glicemia 112 mg/dL. Próxima visita: jueves 10:30.";
@@ -107,45 +111,63 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Services */}
+        {/* Services: grouped price list. Each row is one WhatsApp link. */}
         <section aria-labelledby="servicios" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
           <SectionHeading id="servicios">¿Qué necesita?</SectionHeading>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {site.services.map((service) => {
-              const Icon = serviceIcons[service.icon];
-              return (
-                <li
-                  key={service.slug}
-                  className="flex flex-col rounded-2xl border border-line bg-white p-5 shadow-[0_1px_2px_rgba(23,50,58,0.06)]"
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-tint">
-                      <Icon className="h-6 w-6 text-brand-strong" strokeWidth={2} aria-hidden="true" />
-                    </span>
-                    <div className="pt-1.5">
-                      <h3 className="text-xl leading-snug font-bold">{service.title}</h3>
-                      <p className="mt-1 text-muted">{service.subtitle}</p>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-2xl font-bold text-ink">{formatPrice(service.price)}</p>
-                  <WhatsAppLink
-                    location="service"
-                    service={service}
-                    variant="secondary"
-                    size="sm"
-                    className="mt-4 w-full"
-                  >
-                    <WhatsAppIcon className="h-5 w-5" />
-                    Consultar<span className="sr-only"> por {service.title}</span>
-                  </WhatsAppLink>
-                </li>
-              );
-            })}
-          </ul>
-          <p className="mt-5 text-sm text-muted">
-            Precios en pesos chilenos, referenciales. Atendemos con indicación médica cuando el
-            procedimiento lo requiere.
+          <p className="mt-3 max-w-2xl text-muted">
+            Atendemos con indicación médica cuando el procedimiento lo requiere.
           </p>
+          <div className="mt-8 grid gap-10 md:grid-cols-2 md:items-start md:gap-x-14">
+            {serviceColumns.map((groups, column) => (
+              <div key={column} className="space-y-10">
+                {groups.map((group) => {
+                  const Icon = serviceIcons[group.icon];
+                  return (
+                    <div key={group.id}>
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-tint">
+                          <Icon className="h-6 w-6 text-brand-strong" strokeWidth={2} aria-hidden="true" />
+                        </span>
+                        <h3 className="text-xl font-bold">{group.title}</h3>
+                      </div>
+                      <ul className="-mx-3 mt-3 divide-y divide-line border-y border-line">
+                        {site.services
+                          .filter((service) => service.group === group.id)
+                          .map((service) => (
+                            <li key={service.slug}>
+                              <PlainWhatsAppLink
+                                location="service"
+                                service={service}
+                                className="grid min-h-14 grid-cols-[1fr_auto_auto] items-center gap-x-3 rounded-md px-3 py-3 hover:bg-tint focus-visible:[outline-offset:-3px] motion-safe:transition-colors"
+                              >
+                                {/* sr-only parts make the link read "Consultar por {title}, {subtitle}, {price}, por WhatsApp". */}
+                                <span className="min-w-0">
+                                  <span className="block leading-snug font-semibold text-ink">
+                                    <span className="sr-only">Consultar por </span>
+                                    {service.title}
+                                    <span className="sr-only">,</span>
+                                  </span>
+                                  <span className="mt-0.5 block text-sm text-muted">
+                                    {service.subtitle}
+                                    <span className="sr-only">,</span>
+                                  </span>
+                                </span>
+                                <span className="text-right text-lg font-bold text-ink tabular-nums">
+                                  {formatPrice(service.price)}
+                                  <span className="sr-only">, por WhatsApp</span>
+                                </span>
+                                <WhatsAppIcon className="h-5 w-5 text-brand-strong" />
+                              </PlainWhatsAppLink>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 text-sm text-muted">Precios en pesos chilenos, referenciales.</p>
         </section>
 
         {/* How it works */}
