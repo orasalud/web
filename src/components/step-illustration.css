@@ -6,7 +6,7 @@
  * data-state flips to "play", run once, then keep the last frame.
  */
 
-/* 180px on mobile, 200px from md (three columns). The SVG scales uniformly
+/* 180px on mobile, 200px from md (2×2 grid). The SVG scales uniformly
    (preserveAspectRatio meet) and stays centered, so nothing is cropped. */
 .ill-frame {
   height: 11.25rem;
@@ -34,7 +34,9 @@
 .ill-chip,
 .ill-chip-sel,
 .ill-done,
-.ill-house {
+.ill-house,
+.ill-report-bubble,
+.ill-report-check {
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -106,6 +108,23 @@
   }
   .ill-house {
     animation: ill-pulse-kf 0.5s ease-in-out 3s;
+  }
+
+  /* 4. Report: bubble → three lines → double check (≈3 s) */
+  .ill-report-bubble {
+    animation: ill-pop-kf 0.4s ease-out 0.3s both;
+  }
+  .ill-report-line {
+    animation: ill-fade-in-kf 0.35s ease-out 1s both;
+  }
+  .ill-report-line:nth-of-type(2) {
+    animation-delay: 1.5s;
+  }
+  .ill-report-line:nth-of-type(3) {
+    animation-delay: 2s;
+  }
+  .ill-report-check {
+    animation: ill-pop-kf 0.35s ease-out 2.65s both;
   }
 }
 

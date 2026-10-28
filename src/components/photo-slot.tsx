@@ -6,7 +6,6 @@ import type { Photo } from "@/config/site";
 
 const ratios = {
   "4:3": "aspect-[4/3]",
-  "1:1": "aspect-square",
 };
 
 type Props = {
