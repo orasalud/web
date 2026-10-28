@@ -36,7 +36,7 @@ links, the footer, the form's service list and the structured data (JSON-LD) rea
 | Communes | `communes` | |
 | Hours | `hours` | `label` is what's shown; `schema` is the machine format for Google (`"Mo-Fr 08:30-19:00"`), `null` for closed days |
 | Services and prices | `services` | `price` is a plain number in CLP (`25000`), shown as `$25.000`. Order in the array = order on the page. Keep `slug` stable (used in analytics). `group` is the id of one of the `serviceGroups`. |
-| Service groups | `serviceGroups` | `id`, `title` and `icon` (one of `bandage`, `syringe`, `heart-pulse`, `iv-bag`). Order in the array = order on the page; on desktop the first half goes in the left column. |
+| Service groups | `serviceGroups` | `id`, `title` and `icon` (one of `bandage`, `syringe`, `heart-pulse`, `iv-bag`). Order in the array = order on the page. |
 | FAQ | `faqs` | `question` / `answer` pairs, in display order |
 
 Any value written as `[like this]` is treated as a placeholder and highlighted in yellow on
@@ -92,7 +92,7 @@ Only three events are sent (no pageviews, autocapture or session recording). Eac
 `utm_source` / `utm_medium` / `utm_campaign` when present. PostHog's script is only downloaded
 on the first tracked click, so it doesn't slow down page load.
 
-- `whatsapp_click` — `location`: `header` | `hero` | `service` | `sticky` | `final` | `footer`, plus `service` (slug) on service cards
+- `whatsapp_click` — `location`: `header` | `hero` | `service` | `services_multi` | `sticky` | `final` | `footer`, plus `service` (slug) on service rows. `services_multi` is the "¿Necesita más de un procedimiento?" button.
 - `call_click` — `location`: `hero` | `footer`
 - `lead_form_submit` — `service` (slug, `otro`, or `sin_especificar`), sent after a successful submit
 
