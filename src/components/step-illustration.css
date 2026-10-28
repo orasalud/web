@@ -6,7 +6,7 @@
  * data-state flips to "play", run once, then keep the last frame.
  */
 
-/* 180px on mobile, 200px from md (three columns). The SVG scales uniformly
+/* 180px on mobile, 200px from md (2×2 grid). The SVG scales uniformly
    (preserveAspectRatio meet) and stays centered, so nothing is cropped. */
 .ill-frame {
   height: 11.25rem;
@@ -18,13 +18,6 @@
 @media (min-width: 48rem) {
   .ill-frame {
     height: 12.5rem;
-  }
-}
-
-/* 4 columns: the cards are narrower, so the frame follows the scene's height. */
-@media (min-width: 75rem) {
-  .ill-frame {
-    height: 10rem;
   }
 }
 

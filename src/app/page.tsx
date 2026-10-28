@@ -190,11 +190,10 @@ export default function Home() {
 
         {/* How it works */}
         <section aria-labelledby="asi-funciona" className="bg-tint">
-          {/* Wider from 75rem so the 4 columns leave room for the illustrations. */}
-          <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 min-[75rem]:max-w-7xl">
+          <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
             <SectionHeading id="asi-funciona">Así funciona</SectionHeading>
-            {/* 1 column on mobile, 2×2 from md, 4 columns from 75rem (1200px). */}
-            <ol className="mt-6 grid gap-4 md:grid-cols-2 min-[75rem]:grid-cols-4">
+            {/* 1 column on mobile, 2×2 from md up. */}
+            <ol className="mt-6 grid gap-4 md:grid-cols-2">
               {steps.map((step, index) => (
                 // Equal-height cards (grid stretch); mt-auto keeps the illustrations aligned at the bottom.
                 <li key={step.text} className="flex flex-col rounded-2xl bg-white p-4 sm:p-5">
