@@ -6,11 +6,19 @@
  * data-state flips to "play", run once, then keep the last frame.
  */
 
+/* 180px on mobile, 200px from md (three columns). The SVG scales uniformly
+   (preserveAspectRatio meet) and stays centered, so nothing is cropped. */
 .ill-frame {
-  height: 10rem;
+  height: 11.25rem;
   overflow: hidden;
   border-radius: 0.75rem;
   background: #e9f7f8;
+}
+
+@media (min-width: 48rem) {
+  .ill-frame {
+    height: 12.5rem;
+  }
 }
 
 .ill-frame svg {

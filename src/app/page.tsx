@@ -196,9 +196,9 @@ export default function Home() {
             <SectionHeading id="asi-funciona">Así funciona</SectionHeading>
             <ol className="mt-6 grid gap-4 md:grid-cols-3">
               {steps.map((step, index) => (
-                <li key={step.text} className="rounded-2xl bg-white p-4 sm:p-5">
-                  <StepIllustration kind={step.illustration} />
-                  <div className="mt-4 flex items-start gap-4">
+                // Equal-height cards (grid stretch); mt-auto keeps the illustrations aligned at the bottom.
+                <li key={step.text} className="flex flex-col rounded-2xl bg-white p-4 sm:p-5">
+                  <div className="flex items-start gap-4">
                     <span
                       aria-hidden="true"
                       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-strong text-lg font-bold text-white"
@@ -206,6 +206,9 @@ export default function Home() {
                       {index + 1}
                     </span>
                     <p className="pt-1.5 text-ink">{step.text}</p>
+                  </div>
+                  <div className="mt-auto pt-4">
+                    <StepIllustration kind={step.illustration} />
                   </div>
                 </li>
               ))}
