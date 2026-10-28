@@ -1,4 +1,4 @@
-import { Bandage, HeartPulse, IvBag, Syringe, type LucideIcon } from "lucide-react";
+import { Bandage, HeartPulse, IvBag, ShieldCheck, Syringe, type LucideIcon } from "lucide-react";
 import { CallLink, PlainWhatsAppLink, WhatsAppLink } from "@/components/cta";
 import { Fillable } from "@/components/fillable";
 import { CheckIcon, ChevronIcon, ClockIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
@@ -22,7 +22,8 @@ const trustChips = [
 const steps: { text: string; illustration: StepIllustrationKind }[] = [
   { text: "Nos escribe por WhatsApp o nos llama.", illustration: "chat" },
   { text: "Coordinamos la visita con su orden médica.", illustration: "schedule" },
-  { text: "La enfermera va a la casa y le enviamos el reporte a la familia.", illustration: "route" },
+  { text: "La enfermera va a la casa.", illustration: "route" },
+  { text: "Le enviamos el reporte a la familia.", illustration: "report" },
 ];
 
 const serviceIcons: Record<ServiceIcon, LucideIcon> = {
@@ -31,9 +32,6 @@ const serviceIcons: Record<ServiceIcon, LucideIcon> = {
   "heart-pulse": HeartPulse,
   "iv-bag": IvBag,
 };
-
-const sampleReport =
-  "Visita de hoy, 10:30 · Curación simple realizada en pierna derecha, herida limpia y en buena evolución. Presión 128/80, pulso 72, saturación 97%, glicemia 112 mg/dL. Próxima visita: jueves 10:30.";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -192,9 +190,11 @@ export default function Home() {
 
         {/* How it works */}
         <section aria-labelledby="asi-funciona" className="bg-tint">
-          <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
+          {/* Wider from 75rem so the 4 columns leave room for the illustrations. */}
+          <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 min-[75rem]:max-w-7xl">
             <SectionHeading id="asi-funciona">Así funciona</SectionHeading>
-            <ol className="mt-6 grid gap-4 md:grid-cols-3">
+            {/* 1 column on mobile, 2×2 from md, 4 columns from 75rem (1200px). */}
+            <ol className="mt-6 grid gap-4 md:grid-cols-2 min-[75rem]:grid-cols-4">
               {steps.map((step, index) => (
                 // Equal-height cards (grid stretch); mt-auto keeps the illustrations aligned at the bottom.
                 <li key={step.text} className="flex flex-col rounded-2xl bg-white p-4 sm:p-5">
@@ -216,47 +216,23 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Nurse */}
-        <section aria-labelledby="quien-va" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
-          <SectionHeading id="quien-va">Quién va a la casa</SectionHeading>
-          <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center">
-            <PhotoSlot
-              photo={site.photos.nurse}
-              ratio="1:1"
-              sizes="(min-width: 640px) 224px, 192px"
-              className="w-48 shrink-0 sm:w-56"
-            />
-            <div>
-              <p className="text-2xl font-bold text-ink">
-                <Fillable value={site.nurse.name} />
+        {/* Trust strip */}
+        <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12">
+          <div className="flex items-start gap-4 rounded-2xl bg-tint p-5 sm:gap-5 sm:p-6">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white">
+              <ShieldCheck className="h-7 w-7 text-brand-strong" strokeWidth={2} aria-hidden="true" />
+            </span>
+            <div className="pt-0.5">
+              <p className="text-lg font-semibold text-ink">
+                Todas nuestras enfermeras tienen registro en la Superintendencia de Salud.
               </p>
-              <p className="text-lg text-ink">Enfermera</p>
-              <p className="mt-2">
-                Registro Superintendencia de Salud N° <Fillable value={site.nurse.registry} />
-              </p>
-              <p className="mt-2">
-                <Fillable value={site.nurse.experience} />
+              <p className="mt-1 text-muted">
+                Antes de la visita le enviamos el nombre y el número de registro de la enfermera que va,
+                para que pueda verificarlo.
               </p>
             </div>
           </div>
-        </section>
-
-        {/* Sample report */}
-        <section aria-labelledby="reporte" className="bg-tint">
-          <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
-            <SectionHeading id="reporte">El reporte que recibe la familia</SectionHeading>
-            <figure className="mt-6 max-w-md rounded-2xl bg-[#EFEAE2] p-4 sm:p-5">
-              <figcaption className="mb-3">
-                <span className="inline-block rounded-full bg-ink px-3 py-1 text-sm font-semibold text-white">
-                  Ejemplo
-                </span>
-              </figcaption>
-              <div className="relative rounded-2xl rounded-tl-sm bg-[#D9FDD3] p-4 text-[#1F2C2F] shadow-[0_1px_1px_rgba(0,0,0,0.12)]">
-                <p>{sampleReport}</p>
-              </div>
-            </figure>
-          </div>
-        </section>
+        </div>
 
         {/* Coverage & hours */}
         <section aria-labelledby="cobertura" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">

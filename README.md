@@ -30,7 +30,6 @@ links, the footer, the form's service list and the structured data (JSON-LD) rea
 | WhatsApp number | `whatsappNumber` | Digits only, with country code: `"56912345678"` |
 | Phone for "Llamar" | `phone.e164` | With `+`: `"+56912345678"` |
 | Phone as shown | `phone.display` | Free text: `"+56 9 1234 5678"` |
-| Nurse | `nurse.name`, `nurse.registry`, `nurse.experience` | |
 | Photos | `photos` | See [Photos](#photos) below |
 | Privacy contact email | `contactEmail` | Shown on `/privacidad` |
 | Communes | `communes` | |
@@ -42,20 +41,18 @@ links, the footer, the form's service list and the structured data (JSON-LD) rea
 Any value written as `[like this]` is treated as a placeholder and highlighted in yellow on
 the page, so you can spot what's still missing. Once you replace it, the highlight disappears.
 
-The section headings, steps and sample report text are in `src/app/page.tsx`.
+The section headings, the "Así funciona" steps and the trust strip text are in `src/app/page.tsx`.
 
 ## Photos
 
 Real photos only: no stock photos, AI-generated people or illustrations of people.
-Exception: the hero may show hands only, with no identifiable faces. The nurse portrait
-must always be a real photo of the actual nurse.
+Exception: the hero may show hands only, with no identifiable faces.
 Drop the files into `public/images/` with these exact names, then rebuild (or restart
 `npm run dev`). Until a file exists, a labeled gray box shows its slot.
 
 | File | Where | Shape |
 | --- | --- | --- |
 | `hero.jpg` | Hero: beside the text on desktop, below the buttons on mobile. Nurse with an older adult at home. | 4:3 |
-| `nurse.jpg` | "Quién va a la casa". Nurse portrait. | 1:1 |
 
 - Photos are cropped to fill their shape (centered), so keep the subject near the middle.
   Any size works; 2400px on the long side is plenty.

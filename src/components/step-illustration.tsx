@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import "./step-illustration.css";
 
-export type StepIllustrationKind = "chat" | "schedule" | "route";
+export type StepIllustrationKind = "chat" | "schedule" | "route" | "report";
 
 const BRAND = "#32BDC7";
 const BRAND_STRONG = "#127A82";
@@ -45,6 +45,7 @@ export function StepIllustration({ kind }: { kind: StepIllustrationKind }) {
         {kind === "chat" && <Chat />}
         {kind === "schedule" && <Schedule />}
         {kind === "route" && <Route />}
+        {kind === "report" && <Report />}
       </svg>
     </div>
   );
@@ -203,5 +204,47 @@ function Route() {
         <circle cx="62" cy="121" r="2" fill={WHITE} />
       </g>
     </g>
+  );
+}
+
+function Report() {
+  return (
+    <>
+      <g className="ill-report-bubble">
+        <rect x="16" y="12" width="236" height="108" rx="12" fill={WHITE} />
+        {/* Clipboard icon + header */}
+        <rect x="28" y="23" width="12" height="15" rx="2" fill="none" stroke={BRAND_STRONG} strokeWidth="1.6" />
+        <path d="M31 23v-1.5h6V23M31 29h6M31 33h4" fill="none" stroke={BRAND_STRONG} strokeWidth="1.6" strokeLinecap="round" />
+        <text x="46" y="31" fontSize="12" fontWeight="700" fill={BRAND_STRONG} dominantBaseline="central">
+          Reporte de la visita
+        </text>
+        <path d="M28 46H240" stroke={TINT} strokeWidth="1.5" />
+      </g>
+      <g>
+        <text className="ill-report-line" x="28" y="64" fontSize="11.5" fill={INK}>
+          Curación realizada, herida limpia.
+        </text>
+        <text className="ill-report-line" x="28" y="82" fontSize="11.5" fill={INK}>
+          Presión 128/80 · Saturación 97%
+        </text>
+        <text className="ill-report-line" x="28" y="100" fontSize="11.5" fill={INK}>
+          Próxima visita: jueves 10:30
+        </text>
+      </g>
+      <path
+        className="ill-report-check"
+        d="M222 108l3 3 6-6M228 108l3 3 6-6"
+        fill="none"
+        stroke={BRAND_STRONG}
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Static input bar */}
+      <rect x="16" y="130" width="218" height="22" rx="11" fill={WHITE} />
+      <circle cx="252" cy="141" r="12" fill={BRAND_STRONG} />
+      <path d="M247 141h9m-4-4 4 4-4 4" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </>
   );
 }

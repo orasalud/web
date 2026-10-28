@@ -53,16 +53,9 @@ export const site = {
   /** Contact email shown on /privacidad. */
   contactEmail: "[correo de contacto]",
 
-  nurse: {
-    name: "[Nombre de la enfermera]",
-    registry: "[NÚMERO]",
-    experience: "[Años de experiencia y especialidad — por completar]",
-  },
-
   /**
    * Real photos only: no stock photos, AI-generated people or illustrations.
    * Exception: the hero may show hands only, with no identifiable faces.
-   * The nurse portrait must always be a real photo of the actual nurse.
    * Put the files in public/images/ with these names. Until a file exists, a
    * labeled gray box is shown in its place.
    */
@@ -72,12 +65,6 @@ export const site = {
       src: "/images/hero.jpg",
       alt: "Manos de una enfermera sosteniendo las manos de una persona mayor en su casa",
       placeholder: "Foto: enfermera con adulto mayor en casa",
-    },
-    /** "Quién va a la casa", 1:1. Nurse portrait. */
-    nurse: {
-      src: "/images/nurse.jpg",
-      alt: "Retrato de la enfermera",
-      placeholder: "Foto real de la enfermera",
     },
   } satisfies Record<string, Photo>,
 
