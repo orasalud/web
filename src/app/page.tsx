@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StickyBar } from "@/components/sticky-bar";
 import { formatList, formatPrice, site, type ServiceIcon } from "@/config/site";
+import { MULTI_SERVICE_MESSAGE } from "@/lib/whatsapp";
 
 const FINAL_CTA_ID = "contacto";
 
@@ -29,10 +30,6 @@ const serviceIcons: Record<ServiceIcon, LucideIcon> = {
   "heart-pulse": HeartPulse,
   "iv-bag": IvBag,
 };
-
-// Desktop: first half of the groups in the left column, the rest on the right.
-const half = Math.ceil(site.serviceGroups.length / 2);
-const serviceColumns = [site.serviceGroups.slice(0, half), site.serviceGroups.slice(half)];
 
 const sampleReport =
   "Visita de hoy, 10:30 · Curación simple realizada en pierna derecha, herida limpia y en buena evolución. Presión 128/80, pulso 72, saturación 97%, glicemia 112 mg/dL. Próxima visita: jueves 10:30.";
@@ -111,62 +108,81 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Services: grouped price list. Each row is one WhatsApp link. */}
+        {/* Services: grouped price list, one column. Each row is one WhatsApp link. */}
         <section aria-labelledby="servicios" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
           <SectionHeading id="servicios">¿Qué necesita?</SectionHeading>
           <p className="mt-3 max-w-2xl text-muted">
             Atendemos con indicación médica cuando el procedimiento lo requiere.
           </p>
-          <div className="mt-8 grid gap-10 md:grid-cols-2 md:items-start md:gap-x-14">
-            {serviceColumns.map((groups, column) => (
-              <div key={column} className="space-y-10">
-                {groups.map((group) => {
-                  const Icon = serviceIcons[group.icon];
-                  return (
-                    <div key={group.id}>
-                      <div className="flex items-center gap-3">
-                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-tint">
-                          <Icon className="h-6 w-6 text-brand-strong" strokeWidth={2} aria-hidden="true" />
-                        </span>
-                        <h3 className="text-xl font-bold">{group.title}</h3>
-                      </div>
-                      <ul className="-mx-3 mt-3 divide-y divide-line border-y border-line">
-                        {site.services
-                          .filter((service) => service.group === group.id)
-                          .map((service) => (
-                            <li key={service.slug}>
-                              <PlainWhatsAppLink
-                                location="service"
-                                service={service}
-                                className="grid min-h-14 grid-cols-[1fr_auto_auto] items-center gap-x-3 rounded-md px-3 py-3 hover:bg-tint focus-visible:[outline-offset:-3px] motion-safe:transition-colors"
-                              >
-                                {/* sr-only parts make the link read "Consultar por {title}, {subtitle}, {price}, por WhatsApp". */}
-                                <span className="min-w-0">
-                                  <span className="block leading-snug font-semibold text-ink">
-                                    <span className="sr-only">Consultar por </span>
-                                    {service.title}
-                                    <span className="sr-only">,</span>
-                                  </span>
-                                  <span className="mt-0.5 block text-sm text-muted">
-                                    {service.subtitle}
-                                    <span className="sr-only">,</span>
-                                  </span>
-                                </span>
-                                <span className="text-right text-lg font-bold text-ink tabular-nums">
-                                  {formatPrice(service.price)}
-                                  <span className="sr-only">, por WhatsApp</span>
-                                </span>
-                                <WhatsAppIcon className="h-5 w-5 text-brand-strong" />
-                              </PlainWhatsAppLink>
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
+          <div className="mt-8 max-w-[720px] space-y-10">
+            {site.serviceGroups.map((group) => {
+              const Icon = serviceIcons[group.icon];
+              return (
+                <div key={group.id}>
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-tint">
+                      <Icon className="h-6 w-6 text-brand-strong" strokeWidth={2} aria-hidden="true" />
+                    </span>
+                    <h3 className="text-xl font-bold">{group.title}</h3>
+                  </div>
+                  <ul className="mt-3 divide-y divide-line border-y border-line">
+                    {site.services
+                      .filter((service) => service.group === group.id)
+                      .map((service) => (
+                        <li key={service.slug}>
+                          {/*
+                            Dividers align with the text; the hover tint and focus ring live on
+                            ::before, which extends a little past the row on both sides.
+                            Mobile: price under the subtitle. sm+: price in its own column.
+                            Reads as "{title}, {subtitle}, {price}, Consultar por WhatsApp".
+                          */}
+                          <PlainWhatsAppLink
+                            location="service"
+                            service={service}
+                            className="relative isolate grid min-h-14 grid-cols-[1fr_auto] items-center gap-x-3 py-3 [grid-template-areas:'text_pill'_'price_pill'] before:absolute before:inset-y-0 before:-inset-x-3 before:-z-10 before:rounded-lg hover:before:bg-tint focus-visible:outline-none focus-visible:before:[outline:3px_solid_var(--color-brand-strong)] focus-visible:before:[outline-offset:-3px] motion-safe:before:transition-colors sm:grid-cols-[1fr_auto_auto] sm:gap-x-5 sm:[grid-template-areas:'text_price_pill']"
+                          >
+                            <span className="min-w-0 [grid-area:text]">
+                              <span className="block leading-snug font-semibold text-pretty text-ink">
+                                {service.title}
+                                <span className="sr-only">,</span>
+                              </span>
+                              <span className="mt-0.5 block text-sm text-pretty text-muted">
+                                {service.subtitle}
+                                <span className="sr-only">,</span>
+                              </span>
+                            </span>
+                            <span className="mt-1 text-lg font-bold text-ink tabular-nums [grid-area:price] sm:mt-0 sm:text-right">
+                              {formatPrice(service.price)}
+                              <span className="sr-only">,</span>
+                            </span>
+                            <span className="inline-flex min-h-11 items-center gap-1.5 self-center rounded-full border-2 border-brand-strong bg-white px-3 text-sm font-semibold text-brand-strong [grid-area:pill]">
+                              <WhatsAppIcon className="h-[18px] w-[18px]" />
+                              Consultar<span className="sr-only"> por WhatsApp</span>
+                            </span>
+                          </PlainWhatsAppLink>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
+
+          <div className="mt-10 max-w-[720px]">
+            <p className="font-medium text-ink">
+              ¿Necesita más de un procedimiento? Escríbanos y lo coordinamos en una sola visita.
+            </p>
+            <WhatsAppLink
+              location="services_multi"
+              message={MULTI_SERVICE_MESSAGE}
+              size="md"
+              className="mt-4 w-full sm:w-auto"
+            >
+              <WhatsAppIcon className="h-6 w-6" />
+              Escribir por WhatsApp
+            </WhatsAppLink>
+          </div>
+
           <p className="mt-8 text-sm text-muted">Precios en pesos chilenos, referenciales.</p>
         </section>
 

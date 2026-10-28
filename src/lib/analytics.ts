@@ -1,7 +1,14 @@
 import type { PostHog } from "posthog-js";
 import { getUtm } from "@/lib/utm";
 
-export type CtaLocation = "header" | "hero" | "service" | "sticky" | "final" | "footer";
+export type CtaLocation =
+  | "header"
+  | "hero"
+  | "service"
+  | "services_multi"
+  | "sticky"
+  | "final"
+  | "footer";
 
 type Events = {
   whatsapp_click: { location: CtaLocation; service?: string };

@@ -102,8 +102,7 @@ export const site = {
   ],
 
   /**
-   * "¿Qué necesita?" groups, in display order. On desktop the first half goes
-   * in the left column and the rest in the right column.
+   * "¿Qué necesita?" groups, in display order (one column at every width).
    */
   serviceGroups: [
     { id: "curaciones", title: "Curaciones", icon: "bandage" },

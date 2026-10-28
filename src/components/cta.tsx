@@ -31,13 +31,14 @@ type CommonProps = {
 export function WhatsAppLink({
   location,
   service,
+  message: customMessage,
   variant = "primary",
   size = "md",
   className = "",
   children,
-}: CommonProps & { service?: Service }) {
+}: CommonProps & { service?: Service; message?: string }) {
   const utm = useUtm();
-  const message = service ? serviceMessage(service.title) : GENERIC_MESSAGE;
+  const message = customMessage ?? (service ? serviceMessage(service.title) : GENERIC_MESSAGE);
 
   return (
     <a
